@@ -7,7 +7,10 @@ Created on Wed Jul 14 22:45:11 2021
 
 import numpy as np
 import scipy.signal
+import time
+from datetime import timedelta
 from junjie.tools import single_fit
+from junjie.cpa.saving import path_base, fn_save_Ta
 import mesopylib.num.rmt.open_systems.S_matrix.construction as constr
 
 def multi_fit(E, S):
@@ -98,5 +101,41 @@ def cal_S(n_real=1000, Gamma_abs = [0,0.1], N=1000, kappa = [1, 0.005], M = [1,2
     SE0=np.array(SE0)
     return SE0
 
+def cal_Ta(N, M, Gamma, kappa, n_real=20000, nn=101, path="", flag_save=True):
+    """
+    Compute tas for varying parameters.
 
+    """
+    if not isinstance(N, np.ndarray):
+        N = np.array([N])
+    if not isinstance(M, np.ndarray):
+        M = np.array([M])
+    if not isinstance(Gamma, np.ndarray):
+        Gamma = np.array([Gamma])
+    if not isinstance(kappa, np.ndarray):
+        kappa = np.array([kappa])
+    
+    for n_value in N:
+        for m_value in M:
+            for gamma_value in Gamma:
+                for kappa_value in kappa:
+                    E = np.array([gamma_value * 1j / 2])
+                    tas = []
+                    begintime = time.time()
 
+                    for ii in range(nn):
+                        S0 = cal_S(n_real=n_real, Gamma_abs=np.array([0]), N=n_value, kappa=[kappa_value], M=np.array([m_value]), E=E)
+                        ta = np.mean(1 - np.abs(np.mean(S0[:, 0, 0, 0, 0]))**2)
+                        tas.append(ta)
+                    avg_tas = np.mean(tas)
+                    print(f"Average T_a for N={n_value}, M={m_value}, Gamma={gamma_value}, kappa={kappa_value}: {avg_tas}")
+                    
+                    final_time = time.time()
+                    total_time = final_time - begintime
+                    formatted_time = str(timedelta(seconds=total_time))
+                    print(f"Running time: {formatted_time}")
+                    
+                    if flag_save:
+                        fn = fn_save_Ta(path, n_value, m_value, n_real * nn, kappa_value, E)
+                        np.save(fn, tas, allow_pickle=True, fix_imports=True)
+                        

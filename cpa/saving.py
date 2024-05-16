@@ -31,7 +31,6 @@ def format_kappa(kappa):
 
 def fn_save_Ta(path, N, M, nReal, kappa, E):
     kappa_str = format_kappa(kappa)
-    path += 'data_Ta/'
     if not os.path.exists(path):
         os.makedirs(path)
     if len(E)==1:
