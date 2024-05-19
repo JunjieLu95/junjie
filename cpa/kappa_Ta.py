@@ -37,7 +37,7 @@ def g(N, M, Gamma):
     lambda0 = N/np.pi
     return -Gamma/4/lambda0+np.sqrt((1-m)+Gamma**2/16/(lambda0**2))
 
-def cal_kappa_loss(N, M, Gamma, Ta, flag_over=True):
+def solve_kappa_app(N, M, Gamma, Ta, flag_over=True):
     """
     When the system with global loss, the kappa and Ta do not follow standard relation
 
@@ -80,7 +80,7 @@ def cal_kappa_loss(N, M, Gamma, Ta, flag_over=True):
     return float(kappa_eff_value)
 
 
-def cal_Ta_loss(N, M, Gamma, kappa):
+def solve_Ta_app(N, M, Gamma, kappa):
     """
     When the system with global loss, the kappa and Ta do not follow standard relation
 
@@ -90,7 +90,7 @@ def cal_Ta_loss(N, M, Gamma, kappa):
     Ta = 1 - saa**2 
     return Ta
 
-def solve_kappa_cubic(N, M, d_value, T_a_value):
+def solve_kappa_cubic(N, M, d_value, T_a_value, flag_over=True):
     """
     Use the cubic equation to solve the kappa, exact solution
 
@@ -107,8 +107,10 @@ def solve_kappa_cubic(N, M, d_value, T_a_value):
     solutions = sp.solve((eq1, Ta_eq), (g, kappa_a))
     
     kappa_a_solutions = [float(sol[1]) for sol in solutions]
-    
-    return kappa_a_solutions
+    if flag_over:
+        return np.sort(kappa_a_solutions)[1]
+    else:
+        return np.sort(kappa_a_solutions)[0]
 
 def solve_Ta_cubic(N, M, d_value, kappa_a_value):
     """
@@ -136,7 +138,37 @@ def solve_Ta_cubic(N, M, d_value, kappa_a_value):
         raise ValueError("no solution found")
 
     g_solution = g_solution[0]
+    
     S_aa = (1 - kappa_a_value * g_solution) / (1 + kappa_a_value * g_solution)
     T_a = 1 - S_aa**2
 
     return T_a
+
+def solve_Ta_cubic_g(N, M, d_value, kappa_a_value):
+    """
+    Use the cubic equation to solve the Ta, exact solution
+
+    """
+    m_value = M / N
+    lambda_value = N / np.pi
+
+    def g_equation(g):
+        return g - 1 / g + m_value * kappa_a_value / (1 + kappa_a_value * g) + d_value / (2 * lambda_value)
+
+    initial_guesses = np.linspace(0.1, 10, 10) 
+    g_solution = None
+
+    for guess in initial_guesses:
+        try:
+            g_solution = fsolve(g_equation, guess)
+            if abs(g_equation(g_solution[0])) < 1e-6:  
+                break
+        except (RuntimeError, ValueError):
+            continue
+
+    if g_solution is None:
+        raise ValueError("no solution found")
+
+    g_solution = g_solution[0]
+
+    return g_solution
