@@ -427,8 +427,10 @@ def P_num_ei_Heff(path, nums, nbins, nbins_Re=251, w1=-1.35, w2=12):
             per = interval_zeros_percent(num_ei_ReLim, w1, w2)
         else:
             per = 0
-        
-        P_num_ei_Im = np.histogram(num_ei_Im, bins=nbins, density=True)
+            
+        range_Im = input_params.get('range_Im', None)
+
+        P_num_ei_Im = np.histogram(num_ei_Im, bins=nbins, density=True, range=range_Im)
         P_x_mean_Im = (P_num_ei_Im[1][:-1] + P_num_ei_Im[1][1:])/2
         P_final_Im = (P_num_ei_Im[0], P_x_mean_Im)
         
