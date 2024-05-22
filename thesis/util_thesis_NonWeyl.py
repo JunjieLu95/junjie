@@ -9,7 +9,7 @@ import platform
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from junjie.graph.num.resonances import extract_func_peak
+from junjie.num.graph.resonances import extract_func_peak
 from mesopylib.num.graphs.graph_bonds import Bond, Bond_absorbtion
 from mesopylib.num.graphs.graph_vertices import Vertex \
     , Vertex_k, Vertex_circulator, Vertex_neumann, Vertex_dirichlet \

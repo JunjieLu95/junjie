@@ -18,7 +18,7 @@ from mesopylib.num.graphs.graph_num import Graph_VNA_effH, Graph_VNA \
     , create_connectivity_matrix \
     , create_S_matrix, create_S
 from mesopylib.num.graphs.graphs_dirichlet import generate_random_bonds_equal
-from caspar import sun_factorization, sun_reconstruction
+# from caspar import sun_factorization, sun_reconstruction
 
 def fully_connect_Weyl(seed, w, t_length = 7):
     ndim1 = 6

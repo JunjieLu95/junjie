@@ -12,7 +12,7 @@ def k_window(kr_cal):
     [k_start, k_end, k_step] = kr_cal
     
     k_window = []
-    for i in range(np.int((k_end-k_start)/k_step)+1):
+    for i in range(int((k_end-k_start)/k_step)+1):
         k_window.append(k_start+k_step*i)
     k_window.append(k_end)
     return k_window
