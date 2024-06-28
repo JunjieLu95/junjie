@@ -98,7 +98,7 @@ def solve_kappa_cubic(N, M, d_value, T_a_value, flag_over=True):
     m_value = M/N
     lambda_value = N/np.pi
     g, kappa_a = sp.symbols('g kappa_a', real=True, positive=True)
-
+    
     eq1 = sp.Eq(g - 1/g + m_value * kappa_a / (1 + kappa_a * g) + d_value / (2 * lambda_value), 0)
 
     S_aa = (1 - kappa_a * g) / (1 + kappa_a * g)

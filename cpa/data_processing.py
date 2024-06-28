@@ -463,3 +463,17 @@ def get_prob_complex_plane(zero_c, n=101):
     H = H/np.nansum(H)
     X, Y = np.meshgrid(xedges, yedges)
     return (X,Y,H)
+
+def get_prob_complex_plane_logspace(zero_c, n=101):
+    '''
+    Input: the zeros and the size of the mesh
+    Output: the probability of the zeros in the complex plane
+    '''
+    xedges = np.linspace(np.min(np.real(zero_c)), np.max(np.real(zero_c)), n)
+    yedges = -np.logspace(np.log(-np.min(np.imag(zero_c))), np.log(-np.max(np.imag(zero_c))), n)
+    H, xedges, yedges = np.histogram2d(np.real(zero_c), np.imag(zero_c), bins=(xedges, yedges))
+    H = H.T
+    H[H==0] = np.nan
+    H = H/np.nansum(H)
+    X, Y = np.meshgrid(xedges, yedges)
+    return (X,Y,H)
