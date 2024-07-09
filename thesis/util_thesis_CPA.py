@@ -14,15 +14,12 @@ if computer_name=='plukh0041':
     path_base = '/home/kuhl/tmp/'
 elif computer_name=='pwluj0041':
     path_base = 'd:/onedrive/OneDrive - Université Nice Sophia Antipolis/Nice/mythesis/chapterCPA/'
-    path_base0 = 'd:/onedrive/OneDrive - Université Nice Sophia Antipolis/Nice/2021-11-03-RMT_Zeros-extract/'
+    path_data0 = 'd:/onedrive/OneDrive - Université Nice Sophia Antipolis/Nice/2021-11-03-RMT_Zeros-extract/data/'
 elif computer_name=='LAPTOP-K2TVHSG9':
     path_base = 'd:/onedrive/OneDrive - Université Nice Sophia Antipolis/Nice/mythesis/chapterCPA/'
-    path_base0 = 'd:/onedrive/OneDrive - Université Nice Sophia Antipolis/Nice/2021-11-03-RMT_Zeros-extract/'
+    path_data0 = 'd:/onedrive/OneDrive - Université Nice Sophia Antipolis/Nice/2021-11-03-RMT_Zeros-extract/data/'
     
 path_data = path_base + 'data/'
-path_paper_data = path_base0 + 'data/'
-path_paper_data0 = path_base0 + 'data/'
-
 path_figs = path_base + 'figs/'
 
 def useTex(_useTex, xs=15, ys=None):
