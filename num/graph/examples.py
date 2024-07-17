@@ -67,6 +67,41 @@ def tetra_marburg_Wchange(w):
     vn[3].connect2vertex(2,0,vn[5],bonds[7])
     
     vna=Graph_VNA_effH(vn,connect=[5],couplings=[w])
+    vna=Graph_VNA_effH(vn,connect=[5],couplings=[w])
+
+    return vn, vna
+
+def tetra_marburg_Wchange_2ports(w):
+    ndim1 = 9
+    lengths = np.zeros((ndim1))
+    
+    lengths[0] = 0.94939222
+    lengths[1] = 0.37434459
+    lengths[2] = 1.75148134
+    lengths[3] = 1.59136089
+    lengths[4] = 0.86751784
+    lengths[5] = 0.78565432
+    lengths[6] = 0.43766953
+    lengths[7] = 0.24352648
+    lengths[8] = 0.24352648
+    
+    bonds=[Bond(ilength,name='b'+str(i)) for i,ilength in enumerate(lengths)]
+    vn=[Vertex_neumann(3,name='v'+str(i+1)) for i in range(7)] 
+    vn[1] = Vertex_neumann(4,name='v'+str(1+1))
+    vn[5] = Vertex_neumann(1,name='v'+str(4+1))
+    vn[6] = Vertex_neumann(1,name='v'+str(4+1))
+    
+    vn[0].connect2vertex(0,0,vn[1],bonds[0])
+    vn[0].connect2vertex(1,0,vn[3],bonds[1])
+    vn[0].connect2vertex(2,0,vn[4],bonds[2])
+    vn[1].connect2vertex(1,0,vn[2],bonds[3])
+    vn[1].connect2vertex(2,1,vn[4],bonds[4])
+    vn[2].connect2vertex(1,1,vn[3],bonds[5])
+    vn[2].connect2vertex(2,2,vn[4],bonds[6])
+    vn[3].connect2vertex(2,0,vn[5],bonds[7])
+    vn[1].connect2vertex(3,0,vn[6],bonds[8])
+    
+    vna=Graph_VNA_effH(vn,connect=[5, 6],couplings=[w, w])
 
     return vn, vna
 

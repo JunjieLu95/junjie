@@ -76,7 +76,7 @@ def lasso(k, lc, ld):
     ec = np.exp(1j*(k*lc))
     ed = np.exp(1j*(k*ld))
     S = ed**2*(3*ec-1)/(3-ec)
-    return -S
+    return S
 
 def lasso_phic(k, lc, ld, phi_c):
     ec = np.exp(1j*(k*lc))
