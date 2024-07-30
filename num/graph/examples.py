@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-This program is used for calculating the S-matrix of the open GOE Neumann graph.
-For this purpose, first we need get the h maxtrix, then we can get the scattering matrix.
+Present many examples for calculating the scattering matrix of graph, 
+based on the code from mesopylib
 """
 import numpy as np
 import matplotlib.pyplot as plt
-
 from mesopylib.num.graphs.graph_bonds import Bond, Bond_absorbtion
 from mesopylib.num.graphs.graph_vertices import Vertex \
     , Vertex_k, Vertex_circulator, Vertex_neumann, Vertex_dirichlet \
