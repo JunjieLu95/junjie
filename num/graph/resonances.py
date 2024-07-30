@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This program is used for calculating the S-matrix of the open GOE Neumann graph.
-For this purpose, first we need get the h maxtrix, then we can get the scattering matrix.
+Extract the resonances of scattering matrix
 """
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +8,20 @@ from junjie.tools import mkdir
 from skimage.feature import peak_local_max
 
 def k_window(kr_cal):
-    [k_start, k_end, k_step] = kr_cal
+    """
+    Give the k-window for the computation
+
+    Parameters
+    ----------
+    kr_cal : tuple
+        (k_start, k_end, k_step)
+    Returns
+    -------
+    k_window : list
+        The window for computing
+
+    """
+    (k_start, k_end, k_step) = kr_cal
     
     k_window = []
     for i in range(int((k_end-k_start)/k_step)+1):
@@ -20,7 +32,38 @@ def k_window(kr_cal):
 def extract_func_peak(kr_cal, ki_estimate, graph_info=None, kr_tolrance=0.2, 
                       ki_tolrance=0.05, cal_func=None, extract_type='poles', 
                       n_discrete=500):
-    
+    """
+    Use Func: peak_local_max to find the local max of |S| in complex plane
+
+    Parameters
+    ----------
+    kr_cal : tuple
+       The real part range for calculate the resonances (k_start, k_end, k_step)
+    ki_estimate : tuple
+        The real part range for calculate the resonances  (ki_start, ki_end), small than 0
+    graph_info : tuple, optional
+        including length, or phase of the graph
+        Must be consistent with the Func cal_func!!
+        Sometimes graph info is no need, since it already includes in the cal_func
+    kr_tolrance : float
+        tolrance for kr range, to compute the resonances near the boundary
+    ki_tolrance : float
+        tolrance for ki range, to compute the resonances near the boundary
+    cal_func : function
+        A function return the scattering matrix for computing
+    extract_type : str, optional
+        'poles' or 'zeros', now it is for completeness
+    n_discrete : int, optional
+        the grid of the complex k
+
+    Returns
+    -------
+    resonances : list
+        length of the list: length of phis
+        the element of the list is the array, 
+        which is the resonances in different positions
+
+    """
     k_sep = k_window(kr_cal)
     
     resonances = np.array([])
@@ -57,7 +100,9 @@ def extract_func_peak(kr_cal, ki_estimate, graph_info=None, kr_tolrance=0.2,
 def cal_poles_pars(kr_cal, ki_estimate, graph_infos=None, pars_ind=None,
                   kr_tolrance=0.2, ki_tolrance=0.05, cal_func=None, 
                   extract_type='poles', n_discrete=500, **kwargs):
-    
+    """
+    for parametrically varying the graphs and compute the resonances.
+    """
     r = []
     n = np.shape(graph_infos)[0]
     m = np.shape(graph_infos)[1]
@@ -73,10 +118,14 @@ def cal_poles_pars(kr_cal, ki_estimate, graph_infos=None, pars_ind=None,
     return r
 
 def plot_poles(resonances, xlim, ylim, save_path=False, marker_phase=[-1,-1], color='b'):
+    """
+    Plot the poles in the complex plane
+
+    """
     mkdir(save_path)
     for n, i in enumerate(resonances):
-        plt.figure('EP')
-        plt.clf()
+        # plt.figure('EP')
+        # plt.clf()
         # plt.figure(figsize=(10,4))
         # plt.clf()
         for m, j in enumerate(i):
