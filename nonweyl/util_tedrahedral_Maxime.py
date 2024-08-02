@@ -7,7 +7,10 @@ Created on Wed Jan 27 19:18:14 2021
 
 import numpy as np
 import pickle
+import matplotlib.pyplot as plt
 from junjie.tools import single_fit
+from mesopylib.extract.cLorentzFit import cFitting,cLorentz
+
 
 def creat_rand_bonds(set_ratio, flag_extreme):
     '''
@@ -246,11 +249,12 @@ def cal_poles_cLorentz(ratios, phis, n_realizations, n_frqs, fn, flag_extreme=Fa
                     
                     try:
                         frq, S = cal_s(l, phi, k_guess=k, ss=1)
-                        # plt.plot(frq.real, np.abs(S))
-                        k_rough = single_fit(frq, S)[1] + np.imag(frq[0])*1j
+                        plt.plot(frq.real, np.abs(S))
+                        k_rough = single_fit(S, frq)[1] + np.imag(frq[0])*1j
+                        plt.plot(frq.real, np.abs(cLorentz(frq.real,  single_fit(S, frq))))
                         
                         frq, S = cal_s(l, phi, k_rough, ss=1)
-                        k_num = single_fit(frq, S)[1] + np.imag(frq[0])*1j
+                        k_num = single_fit(S, frq)[1] + np.imag(frq[0])*1j
                         
                         k_numeric[ir, i, j, m] = k_num
                         
