@@ -31,7 +31,7 @@ def k_window(kr_cal):
 
 def extract_func_peak(kr_cal, ki_estimate, graph_info=None, kr_tolrance=0.2, 
                       ki_tolrance=0.05, cal_func=None, extract_type='poles', 
-                      n_discrete=500):
+                      n_discrete=500, flag_plot=False):
     """
     Use Func: peak_local_max to find the local max of |S| in complex plane
 
@@ -41,7 +41,7 @@ def extract_func_peak(kr_cal, ki_estimate, graph_info=None, kr_tolrance=0.2,
        The real part range for calculate the resonances (k_start, k_end, k_step)
     ki_estimate : tuple
         The real part range for calculate the resonances  (ki_start, ki_end), small than 0
-    graph_info : tuple, optional
+    graph_info : list, optional
         including length, or phase of the graph
         Must be consistent with the Func cal_func!!
         Sometimes graph info is no need, since it already includes in the cal_func
@@ -92,9 +92,10 @@ def extract_func_peak(kr_cal, ki_estimate, graph_info=None, kr_tolrance=0.2,
         lim = (res.real>k_sep[i]) & (res.real<k_sep[i+1]) & (res.imag>ki_estimate[0]) & (res.imag<ki_estimate[1])
         resonances=np.append(resonances, np.sort(res[lim]))
         
-        # plt.figure()
-        # plt.pcolormesh(np.transpose(krm), np.transpose(kim), np.transpose(S), shading='auto', cmap=plt.cm.gray, vmin=None, vmax=10)
-        
+        if flag_plot:
+            plt.figure()
+            plt.pcolormesh(np.transpose(krm), np.transpose(kim), np.transpose(S), shading='auto', cmap=plt.cm.gray)
+            
     return resonances
 
 def cal_poles_pars(kr_cal, ki_estimate, graph_infos=None, pars_ind=None,
