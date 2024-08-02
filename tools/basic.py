@@ -41,6 +41,7 @@ def single_fit(S, frq):
     background = [fp, sp]
         
     pr = np.argmax(np.abs(S))
+    frq = np.real(frq)
     ifrq = frq[pr]
     amp = S[pr]
     bg_fit = np.abs(np.interp(ifrq, background[0], background[1]))
