@@ -68,7 +68,7 @@ def extract_func_peak(kr_cal, ki_estimate, graph_info=None, kr_tolrance=0.2,
     
     resonances = np.array([])
     for i in range(len(k_sep)-1):
-        kr = np.linspace(k_sep[i]-kr_tolrance, k_sep[i+1]+kr_tolrance, n_discrete)
+        kr = np.linspace(k_sep[i]+0.001-kr_tolrance, k_sep[i+1]+kr_tolrance, n_discrete)
         ki = np.linspace(ki_estimate[0]-ki_tolrance, ki_estimate[1]+ki_tolrance, n_discrete)
         krm, kim = np.meshgrid(kr, ki)
         nr = len(kr)

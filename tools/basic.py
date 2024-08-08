@@ -35,13 +35,13 @@ def single_fit(S, frq):
         the information of extracted resonance.
 
     '''
+    frq = np.real(frq)
     
     fp = [frq[0], frq[-1]]
     sp = [S[0], S[-1]]
     background = [fp, sp]
         
     pr = np.argmax(np.abs(S))
-    frq = np.real(frq)
     ifrq = frq[pr]
     amp = S[pr]
     bg_fit = np.abs(np.interp(ifrq, background[0], background[1]))
